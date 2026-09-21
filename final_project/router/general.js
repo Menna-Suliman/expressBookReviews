@@ -54,21 +54,26 @@ public_users.get('/isbn/:isbn', async (req, res) => {
   return res.status(200).json(response.data);
 });
 
-// Get book details based on author
 public_users.get('/author/:author', async (req, res) => {
-  //Write your code here
-  const response = await axios.get(`THE_CORRECT_URL/isbn/${req.params.author}`);
-  return res.status(200).json(response.data);
-  //   const aur = req.params.author;
-  // let book = [];
-  // for (let key in books) {
-  //   if (books[key].author === aur) book.push(books[key]);
-  // }
+  try {
+    const author = req.params.author;
+    const result = [];
 
-  // if (book.length > 0) res.status(200).json(book);
-  // res.status(404).json("Not Found Book");
+    for (let key in books) {
+      if (books[key].author === author) {
+        result.push(books[key]);
+      }
+    }
+
+    if (result.length > 0) {
+      return res.status(200).json(result);
+    }
+
+    return res.status(404).json("Not Found Book");
+  } catch (err) {
+    return res.status(500).json({ message: "Error retrieving books" });
+  }
 });
-
 // Get all books based on title
 public_users.get('/title/:title', async (req, res) => {
   const response = await axios.get(`THE_CORRECT_URL/isbn/${req.params.title}`);
