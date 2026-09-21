@@ -45,39 +45,42 @@ public_users.get('/', async (req, res) => {
 });
 
 // Get book details based on ISBN
-public_users.get('/isbn/:isbn', function (req, res) {
-  //Write your code here
-  const isbnn = req.params.isbn;
-  let book = books[isbnn];
-  if (book) res.status(200).json(book);
-  res.status(404).json("Not Found Book");
-  // return res.status(300).json({ message: "Yet to be implemented" });
+public_users.get('/isbn/:isbn', async (req, res) => {
+  //  const isbnn = req.params.isbn;
+  // let book = books[isbnn];
+  // if (book) res.status(200).json(book);
+  // res.status(404).json("Not Found Book");
+  const response = await axios.get(`THE_CORRECT_URL/isbn/${req.params.isbn}`);
+  return res.status(200).json(response.data);
 });
 
 // Get book details based on author
-public_users.get('/author/:author', function (req, res) {
+public_users.get('/author/:author', async (req, res) => {
   //Write your code here
-  const aur = req.params.author;
-  let book = [];
-  for (let key in books) {
-    if (books[key].author === aur) book.push(books[key]);
-  }
+  const response = await axios.get(`THE_CORRECT_URL/isbn/${req.params.author}`);
+  return res.status(200).json(response.data);
+  //   const aur = req.params.author;
+  // let book = [];
+  // for (let key in books) {
+  //   if (books[key].author === aur) book.push(books[key]);
+  // }
 
-  if (book.length > 0) res.status(200).json(book);
-  res.status(404).json("Not Found Book");
-  //return res.status(300).json({ message: "Yet to be implemented" });
+  // if (book.length > 0) res.status(200).json(book);
+  // res.status(404).json("Not Found Book");
 });
 
 // Get all books based on title
-public_users.get('/title/:title', function (req, res) {
-  const aur = req.params.title;
-  let book = [];
-  for (let key in books) {
-    if (books[key].title === aur) book.push(books[key]);
-  }
+public_users.get('/title/:title', async (req, res) => {
+  const response = await axios.get(`THE_CORRECT_URL/isbn/${req.params.title}`);
+  return res.status(200).json(response.data);
+  // const aur = req.params.title;
+  // let book = [];
+  // for (let key in books) {
+  //   if (books[key].title === aur) book.push(books[key]);
+  // }
 
-  if (book.length > 0) return res.status(200).json(book);
-  return res.status(404).json("Not Found Book");
+  // if (book.length > 0) return res.status(200).json(book);
+  // return res.status(404).json("Not Found Book");
 });
 
 //  Get book review
